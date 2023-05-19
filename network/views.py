@@ -155,8 +155,6 @@ def index(request):
             us=request.user
 
             
-
-
             user_following = intrest_followers.objects.filter(following_user=request.user)
 
 

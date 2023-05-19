@@ -425,7 +425,7 @@
                                 <p><a href="{% url 'following' username.id %}" style="text-decoration: none;color: black;">Following</a></p>
                                 {% endif %}
                             </div>
-                            {% if user.user_type == 'individual' %}
+                            {% if request.user.user_type == 'individual' %}
                             <div class="company-review">
                               
 					{% if request.user.id == username.id %}
@@ -437,11 +437,22 @@
                     <a class="btn " data-ripple=""><a class="btn btn btn-primary" href="{% url 'delete_frd' username.id   %}" type="submit" style="background-color: #ffc0cb; border: #ffc0cb;">{{button_text}}</a></a>
 					{% endif %}					{% endif %}
                             </div>
-                            {% else %}
-
+                            {% elif  request.user.user_type == None %}
+                            <div class="company-review">
+                              
+                                {% if request.user.id == username.id %}
+                                <a href="/settings" data-ripple=""></a>
+                                {% else %}
+                                {% if button_text == "Follow" %}
+                                <a class="btn" data-ripple=""><a class="btn btn btn-primary" href="{% url 'sent_friend_request' username.id   %}" type="submit" style="background-color: #ffc0cb; border: #ffc0cb;">{{button_text}}</a></a>
+                                {% else %}
+                                <a class="btn " data-ripple=""><a class="btn btn btn-primary" href="{% url 'delete_frd' username.id   %}" type="submit" style="background-color: #ffc0cb; border: #ffc0cb;">{{button_text}}</a></a>
+                                {% endif %}					{% endif %}
+                                        </div>
+                                        {% else %}
                             <div>
 
-                              
+                                
                                 {% if join == "Join" %}
                                 <a class="btn" data-ripple=""><a class="btn btn btn-primary" href="{% url 'User_page_invitation2' username.id  %}"  style="background-color: #3f5ee9; border: #ffc0cb;">Join</a></a>
                                 {% elif join == "Pending" %}
@@ -449,8 +460,10 @@
                                 {% elif join == "Joined" %}
                                 <a class="btn" data-ripple=""><a class="btn btn btn-primary" href="{% url 'Leave_Join' username.id %}"  style="background-color: #3f5ee9; border: #ffc0cb;">Friends</a></a>
                                 {% endif %}
+                               
                             </div>
                             {% endif %}
+                          
                           
                             
                             
@@ -932,8 +945,6 @@
                                                     {% endfor %}
                             
                             
-                            
-                            
                                                     
                             
                                                     <nav aria-label="Page navigation example" class="pagination-bar">
@@ -993,8 +1004,6 @@
                             </div>
 
 
-
-
                         </div>
                         </div>
                         <div class="tab-pane fade " id="resources-tab-pane" role="tabpanel"
@@ -1002,7 +1011,6 @@
 
 
  <!-- my giz -->
-
 
 
  <div class="create-post " style="background-color: rgb(66, 111, 148);">

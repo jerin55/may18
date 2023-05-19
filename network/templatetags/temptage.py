@@ -24,8 +24,27 @@ def delprice(value):
 
 @register.filter
 def counts(value):
+    last_24_hours = timezone.now() - timezone.timedelta(hours=24)
+    
 
-    posts = Post.objects.filter(intr_id=value)
+    posts = Post.objects.filter(intr_id=value,date_created__gte=last_24_hours).order_by('-date_created')
+    
+    return len(posts)
+
+@register.filter
+def week_counts(value):
+    last_1_week = timezone.now() - timezone.timedelta(weeks=1)
+
+    posts = Post.objects.filter(intr_id=value,date_created__gte=last_1_week).order_by('-date_created')
+    
+    return len(posts)
+
+
+@register.filter
+def month_counts(value):
+    last_1_month = timezone.now() - timezone.timedelta(weeks=4)
+
+    posts = Post.objects.filter(intr_id=value,date_created__gte=last_1_month).order_by('-date_created')
     
     return len(posts)
 

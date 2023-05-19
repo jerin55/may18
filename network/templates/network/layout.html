@@ -744,38 +744,72 @@
                 </ul>
             {% endif %}
             
-
-        <ul style="margin-top: 20px;">
+            <div   >
+              <button onclick="updateCounts('24hours')">Last 24 Hours</button>
+              <button onclick="updateCounts('1week')">Last 1 Week</button>
+              <button onclick="updateCounts('1month')">Last 1 Month</button>
+            </div>
           
-          {% for choose in choose %}
-          {% if request.user == choose.following_user  %}
-          
-                <li>
-                    <div class="feed-wrapper">
-                        <!-- <div class="feed-img">
-                            <a href="{% url 'topic_createpost' choose.topic.id %}">
-                                <div class="feed-profilepic" style="background-image: url(/media/{{suggestion.profile_pic}})"></div>
-                            </a>
-                        </div> -->
-                        <div style="margin-left: 25px;" class="feed-info mr-auto">
-                            <a style="text-decoration: none; color: black;" href="{% url 'topicpage' choose.topic.id %}"><h6>{{choose.topic.intrest_name}}</h6></a>
-                            <!-- <p>{{choose.topic.id | counts }}</p> -->
-                        </div>
-                        <div>
-                           
-                                <h6><a href=" {% url 'topicpage' choose.topic.id %}" style="text-decoration: none; color: black;">
-                                  {{choose.topic.id | counts }} giz 
-                              </a></h6>
-                        </div> 
-                        <!-- <span class="material-symbols-outlined" >
-                            add
-                        </span> -->
-                    </div>
-                </li>   
-              
-                {% endif %}
-               {% endfor %}
+            <ul class="post-list" style="margin-top: 20px;" data-filter="counts">
+              {% for choose in choose %}
+                  {% if request.user == choose.following_user %}
+                      <li>
+                          <div class="feed-wrapper">
+                              <div style="margin-left: 25px;" class="feed-info mr-auto">
+                                  <a style="text-decoration: none; color: black;" href="{% url 'topicpage' choose.topic.id %}"><h6>{{ choose.topic.intrest_name }}</h6></a>
+                              </div>
+                              <div>
+                                  <h6><a href="{% url 'topicpage' choose.topic.id %}" style="text-decoration: none; color: black;">
+                                      <span class="counts" data-counts="{{ choose.topic.id|counts }}">{{ choose.topic.id|counts }}</span>
+                                  </a></h6>
+                              </div> 
+                          </div>
+                      </li>   
+                  {% endif %}
+              {% endfor %}
+          </ul>
+      
+          <ul class="post-list" style="margin-top: 20px;" data-filter="week-counts">
+              {% for choose in choose %}
+                  {% if request.user == choose.following_user %}
+                      <li>
+                          <div class="feed-wrapper">
+                              <div style="margin-left: 25px;" class="feed-info mr-auto">
+                                  <a style="text-decoration: none; color: black;" href="{% url 'topicpage' choose.topic.id %}"><h6>{{ choose.topic.intrest_name }}</h6></a>
+                              </div>
+                              <div>
+                                  <h6><a href="{% url 'topicpage' choose.topic.id %}" style="text-decoration: none; color: black;">
+                                      <span class="week-counts" data-week-counts="{{ choose.topic.id|week_counts }}">{{ choose.topic.id|week_counts }}</span>
+                                  </a></h6>
+                              </div> 
+                          </div>
+                      </li>   
+                  {% endif %}
+              {% endfor %}
+          </ul>
+      
+      
+          <ul class="post-list" style="margin-top: 20px;" data-filter="month-counts">
+            {% for choose in choose %}
+                {% if request.user == choose.following_user %}
+                    <li>
+                        <div class="feed-wrapper">
+                            <div style="margin-left: 25px;" class="feed-info mr-auto">
+                                <a style="text-decoration: none; color: black;" href="{% url 'topicpage' choose.topic.id %}"><h6>{{choose.topic.intrest_name }}</h6></a>
+                                </div>
+                                <div>
+                                    <h6><a href="{% url 'topicpage' choose.topic.id %}" style="text-decoration: none; color: black;">
+                                        <span class="month-counts" data-month-counts="{{ choose.topic.id|month_counts }}">{{ choose.topic.id|month_counts }}</span>
+                                    </a></h6>
+                                </div> 
+                            </div>
+                        </li>   
+                    {% endif %}
+                {% endfor %}
             </ul>
+
+
+
                     </div>
                     <div class="feed-list bg-white" style="height: 320px;  overflow-y: scroll;">
                         <h4> Suggested Topics<span class="material-symbols-outlined"></span> <span class="material-symbols-outlined">
@@ -1059,7 +1093,31 @@ Radio3Radio.addEventListener('change', function() {
       window.open(url, "_blank");
     }
   </script>
-
+  <script>
+    function updateCounts(filter) {
+        var filterValue = '';
+        
+        if (filter === '24hours') {
+            filterValue = 'counts';
+        } else if (filter === '1week') {
+            filterValue = 'week-counts';
+        } else if (filter === '1month') {
+            filterValue = 'month-counts';
+        }
+        
+        var allLists = document.getElementsByClassName('post-list');
+        for (var i = 0; i < allLists.length; i++) {
+            if (allLists[i].getAttribute('data-filter') === filterValue) {
+                allLists[i].style.display = 'block';
+            } else {
+                allLists[i].style.display = 'none';
+            }
+        }
+    }
+    
+    // Initially, set the filter to "Last 24 Hours"
+    updateCounts('24hours');
+</script>
 
 
 </body>

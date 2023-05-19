@@ -362,13 +362,15 @@
                         
                         <div>
 
-                              
+                              {% if request.user.username == pro.username %}
+                              {% else %}
                             {% if join == "Join" %}
                             <a class="btn" data-ripple=""><a class="btn btn btn-primary" href="{% url 'Invite_Page' pro.id %}"  style="background-color: #3f5ee9; border: #ffc0cb;">Join</a></a>
                             {% elif join == "Pending" %}
                             <a class="btn" data-ripple=""><a class="btn btn btn-primary"   style="background-color: #3f5ee9; border: #ffc0cb;">Pending</a></a>
                             {% elif join == "Joined" %}
                             <a class="btn" data-ripple=""><a class="btn btn btn-primary" href="{% url 'Leave_Join' pro.id %}"  style="background-color: #3f5ee9; border: #ffc0cb;">Leave</a></a>
+                            {% endif %}
                             {% endif %}
                         </div>
                       
