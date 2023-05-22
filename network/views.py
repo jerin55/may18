@@ -708,6 +708,9 @@ def profile(request, username):
 
                 if i.pages == j.pages:
                     notifi_count=notifi_count +1
+
+
+    categories = ["Article", "Book", "Case Study", "Education", "Interviews", "Market Research", "Observation", "Poem", "Survey", "Work & Business"]                
     context = {
         "username": user,
         "posts": posts,
@@ -732,6 +735,7 @@ def profile(request, username):
         "downloads":downloads,
         "notifi_count":notifi_count,
         'join':join,
+        'categories': categories
         
         
        
@@ -1477,6 +1481,130 @@ def pageprofile(request,pageid):
 
 
     return render(request,"pageprofile.html",context)
+
+
+
+def buy_pageprofile(request,pageid):
+    pro=User.objects.get(id=pageid)
+    posts = Post.objects.filter(creater=pageid).order_by('-date_created')
+    choose=intrest_followers.objects.all()
+    
+    followings = []
+   
+    crt=Cart.objects.filter(user=request.user)
+    crt_count = crt.count()
+    inv=invite_request.objects.filter(to_user=request.user)
+
+    follower=False
+
+
+    to=request.user.id
+    frm=pageid
+
+    if pagefollow.objects.filter(from_user__id=to, to_page__id=frm,stat='following').first():
+         button_text = 'Unfollow'
+    else:  
+        button_text = 'Follow' 
+
+    user_followers = len(pagefollow.objects.filter(to_page=pageid))
+
+    if request.user.is_authenticated:
+        followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
+        suggestions = []
+    search = request.GET.get('search')
+    
+
+    follower_count = Follower.objects.get(user=pro).followers.all().count()
+    following_count = Follower.objects.filter(followers=pro).count()        
+    # suggestions = User.objects.all()
+    # req=invite_request.objects.all
+    
+    us = request.user
+    pge = User.objects.get(id=frm)
+
+    to_us = pge
+    
+    join ='Join'
+
+    if invite_request.objects.filter(from_user=us,to_user=to_us):
+
+        inv = invite_request.objects.filter(from_user=us,to_user=to_us)
+
+        for i in inv:
+
+            if i.status == "Pending":
+
+                join = 'Pending'
+            elif i.status == "Joined": 
+                join = 'Joined'   
+  
+        
+
+    friends_list=[]
+    if invite_request.objects.filter(to_user=to_us,status="Joined"):
+        friends_list = invite_request.objects.filter(to_user=to_us,status="Joined")
+        
+        
+
+    if request.user.is_authenticated:
+        # followings = friend_request.objects.filter(from_user=request.user)
+
+        if invite_request.objects.filter(to_user=to_us, status__in=["Joined","User_Pending"]):
+            frnd_list = invite_request.objects.filter(to_user=to_us, status__in=["Joined","User_Pending"])
+
+        
+            join_friends=[]
+           
+            for i in frnd_list :
+
+                join_friends.append(User.objects.filter(id=i.from_user.id))
+
+            combined_queryset = join_friends[0]
+            for queryset in join_friends[1:]:
+                combined_queryset |= queryset
+
+
+            suggestions = User.objects.exclude(pk__in=combined_queryset).exclude(username=request.user.username).order_by("?")
+
+            
+       
+
+        if search:
+            suggestions = suggestions.filter(username__icontains=search)
+        suggestions = suggestions[:9]
+
+        if request.user in Follower.objects.get(user=pro).followers.all():
+            follower = True    
+    page_joined=[]
+    if  invite_request.objects.filter(from_user=request.user,status="Joined"):
+        page_joined = invite_request.objects.get(from_user=request.user,status="Joined")
+
+    
+    
+    context = {
+        "pro":pro,
+        "posts":posts,
+        "pag":pag,
+        "posts_count": posts.count(),
+        "suggestions":suggestions,
+        "search" : search,
+        "is_follower": follower,
+        "follower_count": follower_count,
+        "following_count": following_count,
+         "button_text":button_text,
+        "user_followers":user_followers,
+         'crt' : crt,
+        'crt_count' : crt_count,
+        "invc":inv.count(),  
+        "choose":choose,
+        'join':join,
+        'fncount':len(friends_list),
+        'friends_list':friends_list,
+        'page_joined':page_joined,
+    }
+
+
+    return render(request,"buy_pageprofile.html",context)
 
 def pagepost(request,pk):
     pg = page.objects.get(id=pk)

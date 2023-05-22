@@ -34,6 +34,7 @@
         {% endblock %}
 
 
+
         <style>
             .file-input {
        display: none;
@@ -147,13 +148,13 @@
                             <div>
                                 <div>
                                     <ul>
-                                        
-                                    <li>
-                                        <div class="switch-button" >
-                                            <button class="sell-button" ><a href="{% url 'pageprofile' user.id %}" style="text-decoration: none; color: black;">Sell</a></button>
-                                            <button class="buy-button"> <a href="{% url 'buy_pageprofile' user.id %}" style="text-decoration: none; color: black;" > Buy</a></button>
-                                          </div>
-                                    </li>
+
+                                        <li >
+                                            <div class="switch-button" >
+                                                <button class="buy-button" ><a href="{% url 'pageprofile' user.id %}" style="text-decoration: none; color: black;">Sell</a></button>
+                                                <button class="sell-button"><a href="{% url 'buy_pageprofile' user.id %}" style="text-decoration: none; color: black;" > Buy</a></button>
+                                              </div>
+                                        </li>
                                         <li>
                                             <a href="{% url 'index' %}" >
                                                 <span class="material-symbols-outlined">
@@ -176,6 +177,7 @@
                                             </li> -->
                                             
                                     {% if user.user_type == 'organization' %}
+
 
                                     <li>
                                       <a href="{% url 'pageprofile' user.id %}" class="active">
@@ -310,24 +312,13 @@
                 <div class="pro-info">
                     <h2>{{user.username}}</h2>
                     <p>Student</p>
-                    <div> 
-                        <a href="{% url 'edit_profile' user.id %}" style="text-decoration: none;color: black">
-                      <span
-                                class="material-symbols-outlined">
-                               
-                            </span> <i class='far fa-edit' style='font-size:20px'></i> &nbsp; Edit profile</a>
-               </div>
                 </div>
-                
 
             </div>
             <ul class="viewed-list">
-                <li>first name : <span><h6 >{{ user.first_name }}</h6></span></li>
-                <li>last name : <span><h6 >{{ user.last_name }}</h6></span></li>
-                <li>gender : <span><h6 >{{ user.genter }}</h6></span></li>
-                <li>country : <span><h6 >{{ user.state }}</h6></span></li>
-                <li>email : <span><h6 >{{ user.email }}</h6></span></li>
-                <li>contact : <span><h6 >{{ user.mobile }}</h6></span></li>
+                <li>Views of your profile <span><h6 id="count-views"></h6></span></li>
+                <li>Views of your gizs <span>1</span></li>
+
             </ul>
         </div>
     
@@ -434,7 +425,7 @@
                                 data-bs-target="#feed-tab-pane" type="button" role="tab" aria-controls="feed-tab-pane"
                                 aria-selected="true"><span class="material-symbols-outlined">
                                     format_list_bulleted
-                                </span> my giz items</button>
+                                </span>  giz items</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="about-tab" data-bs-toggle="tab"
