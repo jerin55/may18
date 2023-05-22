@@ -1245,7 +1245,7 @@ def pag(request,pk):
 
     pag=page.objects.filter(creater=pk)
     # pge=pagefollow.objects.all()
-    all_pages=User.objects.order_by("?")[:4]
+    all_pages=User.objects.order_by("?")[:6]
     intrests=intrest.objects.all().order_by("?")[:5]
 
     crt=Cart.objects.filter(user=request.user)
@@ -1318,7 +1318,7 @@ def pag(request,pk):
 def mypage(request,pk):
     
     
-    pag=page.objects.all()
+    pag=User.objects.all()
     return render(request,"mypage.html",{"pag":pag,})  
 
 
@@ -1352,6 +1352,9 @@ def page_creation(request,pk):
            
         pag.save()
         return redirect("pag",pk)
+    
+
+
 @login_required(login_url='login')
 def pageprofile(request,pageid):
     pro=User.objects.get(id=pageid)
@@ -1407,16 +1410,12 @@ def pageprofile(request,pageid):
             elif i.status == "Joined": 
                 join = 'Joined'   
   
-    
-    
         
 
     friends_list=[]
     if invite_request.objects.filter(to_user=to_us,status="Joined"):
         friends_list = invite_request.objects.filter(to_user=to_us,status="Joined")
         
-        
-
         
 
     if request.user.is_authenticated:
@@ -1426,11 +1425,9 @@ def pageprofile(request,pageid):
             frnd_list = invite_request.objects.filter(to_user=to_us, status__in=["Joined","User_Pending"])
 
         
-        
             join_friends=[]
            
             for i in frnd_list :
-
 
                 join_friends.append(User.objects.filter(id=i.from_user.id))
 
@@ -1438,18 +1435,15 @@ def pageprofile(request,pageid):
             for queryset in join_friends[1:]:
                 combined_queryset |= queryset
 
-        
-
 
             suggestions = User.objects.exclude(pk__in=combined_queryset).exclude(username=request.user.username).order_by("?")
 
             
-
-        
+       
 
         if search:
             suggestions = suggestions.filter(username__icontains=search)
-        suggestions = suggestions[:5]
+        suggestions = suggestions[:9]
 
         if request.user in Follower.objects.get(user=pro).followers.all():
             follower = True    
@@ -4634,8 +4628,6 @@ def User_page_invitation(request,pk,id):
     inv_id=invite_request.objects.get(id=add_invite.id)
     
 
-
-
     Notifi =Notifications()
 
     Notifi.from_user = user_id
@@ -4648,15 +4640,10 @@ def User_page_invitation(request,pk,id):
 
     
 
-
-
-
     return redirect('pageprofile',pk)
 
 
 def User_page_invitation2(request,pk):
-
-
 
 
     user_id = request.user
@@ -4673,8 +4660,6 @@ def User_page_invitation2(request,pk):
     inv_id=invite_request.objects.get(id=add_invite.id)
     
 
-
-
     Notifi =Notifications()
 
     Notifi.from_user = user_id
@@ -4684,10 +4669,6 @@ def User_page_invitation2(request,pk):
     Notifi.invite_request = inv_id
 
     Notifi.save()
-
-    
-
-
 
 
     return redirect('profile',pk)
@@ -4829,8 +4810,6 @@ def confirm_order(request,id,pk):
 
 
 def download_histoy(request,id,pk):
-
-    
 
         product=Post.objects.get(id=id)
         free_download_user=User.objects.get(id=request.user.id)

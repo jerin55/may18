@@ -5,18 +5,23 @@
 {% block profile %}
 
 <div class='right-div-content'>
+  <b>&nbsp; All Pages</b> <br>
     <div class="space" style="background-color: white;"></div>
+   
     {% if user.is_authenticated %}
         <div class="suggestion-box">
+          
           
             
           
             {% for pag in pag %}
+            {% if pag.user_type == 'organization' %}
+
             
                 <div class="suggestion-user">
                     <div>
                         <a href="">
-                            <div class="small-profilepic" style="background-image: url(/media/{{pag.image}})"></div>
+                            <div class="small-profilepic" style="background-image: url(/media/{{pag.profile_pic}})"></div>
                         </a>
                     </div>
                     <div class="user-details">
@@ -24,7 +29,7 @@
                             <div id="user-name">
                                 
                                 <strong>
-                                    {{pag.pagename}} 
+                                    {{pag.username}} 
                                 </strong>
                             </div>
                             <!-- <div class="grey">@{{pag.username}}</div> -->
@@ -35,6 +40,7 @@
                        
                     </div>
                 </div>
+                {% endif %}
             {% empty %}
                     <div style="text-align: center; border-bottom: .5px solid #e6ecf0; padding: 10px 15px;">
                         <span class="grey" style="font-size: .9em;">No suggestions available.</span>

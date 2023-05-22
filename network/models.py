@@ -70,7 +70,11 @@ class User(AbstractUser):
     mobile=models.IntegerField(max_length=255,null=True,blank=True)
     user_type=models.CharField(max_length=255,null=True,blank=True)
 
-   
+    USER_TYPE_CHOICES = (
+            ('Admin', 'Admin'),
+            ('individual', 'individual'),
+            ('organization', 'organization'),
+        )
     
     
 

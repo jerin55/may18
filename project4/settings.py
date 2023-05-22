@@ -239,7 +239,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '07c1757f2c7b02fc874df55645fc2d35'  # App Secret
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
+ 
 TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
