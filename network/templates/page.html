@@ -165,15 +165,27 @@
                                                 </div>
                                             </a>
                                         </li> -->
+                                        {% if user.user_type == 'organization' %}
                                         <li>
-                                            <a href="{% url 'profile' user.id %}">
+                                            <a href="{% url 'pageprofile' user.id %}">
                                                 <span class="material-symbols-outlined">
                                                     person
-                                                </span>
-                                                Profile
+                                                    </span>
+                                                    Profile
                                             </a>
-
+                                           
                                         </li>
+                                        {% else %}
+                                        <li>
+                                          <a href="{% url 'profile' user.id %}">
+                                              <span class="material-symbols-outlined">
+                                                  person
+                                                  </span>
+                                                  Profile
+                                          </a>
+                                         
+                                      </li>
+                                      {% endif %}
                                         <!-- <li class="nav-item" id="logout">
                      
                                             <a href="" class="nav-link">

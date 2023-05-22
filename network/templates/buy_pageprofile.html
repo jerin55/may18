@@ -154,7 +154,7 @@
                                                 <button class="buy-button" ><a href="{% url 'pageprofile' user.id %}" style="text-decoration: none; color: black;">Sell</a></button>
                                                 <button class="sell-button"><a href="{% url 'buy_pageprofile' user.id %}" style="text-decoration: none; color: black;" > Buy</a></button>
                                               </div>
-                                        </li>
+                                        </li><br>
                                         <li>
                                             <a href="{% url 'index' %}" >
                                                 <span class="material-symbols-outlined">
@@ -191,15 +191,27 @@
                                   {% else %}
                                         
                                   
-                                        <li>
-                                            <a href="{% url 'profile' user.id %}" class="active">
-                                                <span class="material-symbols-outlined">
-                                                    person
-                                                    </span>
-                                                    Profile
-                                            </a>
-                                           
-                                        </li>
+                                  {% if user.user_type == 'organization' %}
+                                  <li>
+                                      <a href="{% url 'pageprofile' user.id %}">
+                                          <span class="material-symbols-outlined">
+                                              person
+                                              </span>
+                                              Profile
+                                      </a>
+                                     
+                                  </li>
+                                  {% else %}
+                                  <li>
+                                    <a href="{% url 'profile' user.id %}">
+                                        <span class="material-symbols-outlined">
+                                            person
+                                            </span>
+                                            Profile
+                                    </a>
+                                   
+                                </li>
+                                {% endif %}
 
                                         {% endif %}
                                             <!-- <li class="nav-item" id="logout">

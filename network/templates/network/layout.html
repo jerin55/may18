@@ -101,20 +101,39 @@
 
               <div class="d-flex align-items-center nav-profile">
 
+                {% if user.user_type == 'organization' %}
+
                 <div class="nav-info">
-                    <a href="{% url 'profile' user.id %}" style="text-decoration: none; color: black;">
+                    <a href="{% url 'pageprofile' user.id %}" style="text-decoration: none; color: black;">
                     <h6 >{{user.username}} &nbsp;&nbsp;</h6></a>
                 </div>
                 <div class="nav-img">
                     {% if user.is_authenticated %}
                    
-                    <a href="{% url 'profile' user.id %}">               
+                    <a href="{% url 'pageprofile' user.id %}">               
                        
                         <div class="nav-profilepic" style="float: left; background-image: url(/media/{{user.profile_pic}})"></div>
                     </a>
 
                     {% endif %}
                 </div>
+
+              {% else %}
+                <div class="nav-info">
+                  <a href="{% url 'profile' user.id %}" style="text-decoration: none; color: black;">
+                  <h6 >{{user.username}} &nbsp;&nbsp;</h6></a>
+              </div>
+              <div class="nav-img">
+                  {% if user.is_authenticated %}
+                 
+                  <a href="{% url 'profile' user.id %}">               
+                     
+                      <div class="nav-profilepic" style="float: left; background-image: url(/media/{{user.profile_pic}})"></div>
+                  </a>
+
+                  {% endif %}
+              </div>
+              {% endif %}
                 
             </div>
           </div>

@@ -446,16 +446,27 @@ input:checked + .slider:after {
                                         {% if user.is_authenticated %}
                                             
                                       
-                                            <li>
-                                                <a href="{% url 'profile' user.id %}" >
-                                                    <span class="material-symbols-outlined">
-                                                        person
-                                                        </span>
-                                                        Profile
-                                                </a>
-                                               
-                                            </li>
+                                        {% if user.user_type == 'organization' %}
+                                        <li>
+                                            <a href="{% url 'pageprofile' user.id %}">
+                                                <span class="material-symbols-outlined">
+                                                    person
+                                                    </span>
+                                                    Profile
+                                            </a>
                                            
+                                        </li>
+                                        {% else %}
+                                        <li>
+                                          <a href="{% url 'profile' user.id %}">
+                                              <span class="material-symbols-outlined">
+                                                  person
+                                                  </span>
+                                                  Profile
+                                          </a>
+                                         
+                                      </li>
+                                      {% endif %}
                                           
                                             <li>
                                                 <a href="{% url 'wishlis' user.id %}">
