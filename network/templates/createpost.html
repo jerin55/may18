@@ -632,19 +632,19 @@ input:checked + .slider:after {
                                               {% if intrest_following.topic.tooltip2 == None %}
                                               <span class="hover-popup">
                                                 {% for sublevel in intrest_following.topic.intrest_set.all %}
-                                                    -{{ sublevel.intrest_name }} -
+                                                    {{ sublevel.intrest_name }} -
                                                     {% for sub_sublevel in sublevel.intrest_set.all %}
-                                                        -{{ sub_sublevel.intrest_name }} -
+                                                        {{ sub_sublevel.intrest_name }} -
                                                         {% for sub_sub_sublevel in sub_sublevel.intrest_set.all %}
-                                                            -{{ sub_sub_sublevel.intrest_name }} -
+                                                            {{ sub_sub_sublevel.intrest_name }} -
                                                             {% for sub_sub_sub_sublevel in sub_sub_sublevel.intrest_set.all %}
-                                                                -{{ sub_sub_sub_sublevel.intrest_name }} -
+                                                                {{ sub_sub_sub_sublevel.intrest_name }} -
                                                                 {% for sub_sub_sub_sub_sublevel in sub_sub_sub_sublevel.intrest_set.all %}
-                                                                    -{{ sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                    {{ sub_sub_sub_sub_sublevel.intrest_name }} -
                                                                     {% for sub_sub_sub_sub_sub_sublevel in sub_sub_sub_sub_sublevel.intrest_set.all %}
-                                                                        -{{ sub_sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                        {{ sub_sub_sub_sub_sub_sublevel.intrest_name }} -
                                                                         {% for sub_sub_sub_sub_sub_sub_sublevel in sub_sub_sub_sub_sub_sublevel.intrest_set.all %}
-                                                                            -{{ sub_sub_sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                            {{ sub_sub_sub_sub_sub_sub_sublevel.intrest_name }} -
                                                                             <!-- Add more nested loops for additional levels if needed -->
                                                                         {% endfor %}
                                                                     {% endfor %}
@@ -654,7 +654,9 @@ input:checked + .slider:after {
                                                     {% endfor %}
                                                 {% endfor %}
                                             </span>
-                                              {% endif %}
+                                            {% else %}
+                                            <span class="hover-popup">{{ intrest_following.topic.tooltip2 }}/{{intrest_following.topic.intrest_name }}</span>
+                                             {% endif %}
                                           </a>
                                       {% endif %}
                                   {% endfor %}
@@ -675,17 +677,17 @@ input:checked + .slider:after {
 
                                               <span class="hover-popup">
                                                 {% for sublevel in intrest.intrest_set.all %}
-                                                    -{{ sublevel.intrest_name }} -
+                                                    {{ sublevel.intrest_name }} -
                                                     {% for sub_sublevel in sublevel.intrest_set.all %}
-                                                        -{{ sub_sublevel.intrest_name }} -
+                                                        {{ sub_sublevel.intrest_name }} -
                                                         {% for sub_sub_sublevel in sub_sublevel.intrest_set.all %}
-                                                            -{{ sub_sub_sublevel.intrest_name }} -
+                                                            {{ sub_sub_sublevel.intrest_name }} -
                                                             {% for sub_sub_sub_sublevel in sub_sub_sublevel.intrest_set.all %}
-                                                                -{{ sub_sub_sub_sublevel.intrest_name }} -
+                                                                {{ sub_sub_sub_sublevel.intrest_name }} -
                                                                 {% for sub_sub_sub_sub_sublevel in sub_sub_sub_sublevel.intrest_set.all %}
-                                                                    -{{ sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                    {{ sub_sub_sub_sub_sublevel.intrest_name }} -
                                                                     {% for sub_sub_sub_sub_sub_sublevel in sub_sub_sub_sub_sublevel.intrest_set.all %}
-                                                                        -{{ sub_sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                        {{ sub_sub_sub_sub_sub_sublevel.intrest_name }} -
                                                                         {% for sub_sub_sub_sub_sub_sub_sublevel in sub_sub_sub_sub_sub_sublevel.intrest_set.all %}
                                                                             -{{ sub_sub_sub_sub_sub_sub_sublevel.intrest_name }} -
                                                                             <!-- Add more nested loops for additional levels if needed -->
