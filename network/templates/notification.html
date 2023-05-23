@@ -213,6 +213,7 @@
                                                     
                                             </a>
                                         </li>
+                                        {% if not user.user_type == 'organization' %}
                                         <li>
                                             <a href="{% url 'pag' user.id %}">
                                                 <span class="material-symbols-outlined">
@@ -221,6 +222,7 @@
                                                     Pages
                                             </a>
                                         </li>
+                                        {% endif %}
                                         <li>
                                             <a href="{% url 'logout' %}">
                                                 <span class="material-symbols-outlined">
@@ -465,6 +467,42 @@
                                 </div> -->
                             </li>
                             
+                    {% endif %}
+
+
+
+                    {% if i.type == "User_Page_Join_Request" %}
+
+                    <span hidden>{{i.id | notification_read}}</span>
+                            <li class="bg-white radius-20 mt-4">
+                                <div class="d-flex align-items-center notification-items">
+                                    <div class="page-img">
+                                        <a href="{% url 'profile' i.from_user.id %}" style="text-decoration: none;color: black;"><img src="/media/{{i.from_user.image}}" alt="">
+                                    </div>
+                                    <div class="pages-titles">
+                                    <p> <span style="font-size: 18px;"><b>{{i.from_user.username}} </b></span> sent you join request </a><br>
+                                        <!-- <span>UNIX directory tree hierarchy</span>  page</p> -->
+                                        <span class="text-grey">{{i.date_created}}</span>
+                                        {% if i.invite_request != "NULL" %}
+                                        <div>
+                                            <a class="btn btn-outline-success" type="submit" href="/Invite_Joined/{{i.invite_request.id}}/{{i.from_user.id}} ">Accept</a> &nbsp;
+                                            <a class="btn btn-outline-success" type="submit" href="/Invite_Removed/{{i.invite_request.id}}/{{i.from_user.id}}" >Reject</a>
+                                        </div>
+                                        {% endif %}
+                                       
+
+
+                                    </div>
+                                </div>
+
+                
+                    
+                                <!-- <div class="notification">
+                                    <span class="material-symbols-outlined">
+                                        add
+                                    </span>
+                                </div> -->
+                            </li>
                     {% endif %}
 
                     {% if i.type == "Page_Accept_User_Invitions" %}

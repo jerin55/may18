@@ -212,6 +212,7 @@
                                                     
                                             </a>
                                         </li>
+                                        {% if not user.user_type == 'organization' %}
                                         <li>
                                             <a href="{% url 'pag' user.id %}">
                                                 <span class="material-symbols-outlined">
@@ -220,6 +221,7 @@
                                                     Pages
                                             </a>
                                         </li>
+                                        {% endif %}
                                         <li>
                                             <a href="{% url 'logout' %}">
                                                 <span class="material-symbols-outlined">

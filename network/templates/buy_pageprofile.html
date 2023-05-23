@@ -256,14 +256,16 @@
                                                         
                                                 </a>
                                             </li>
+                                            {% if not user.user_type == 'organization' %}
                                             <li>
-                                                <a href="{% url 'pag' user.id %}" >
+                                                <a href="{% url 'pag' user.id %}">
                                                     <span class="material-symbols-outlined">
                                                         apps
                                                         </span>
                                                         Pages
                                                 </a>
                                             </li>
+                                            {% endif %}
                                             <li>
                                                 <a href="{% url 'logout' %}">
                                                     <span class="material-symbols-outlined">
@@ -463,11 +465,11 @@
                         
 
 
-                        <li class="nav-item" role="presentation">
+                        <!-- <li class="nav-item" role="presentation">
                             <button class="nav-link" id="about-tab" ><a href="{% url 'Join_friends_reqest' pro.id %}" style="text-decoration: none;color: black; display: flex;"><span class="material-symbols-outlined">
                                     info
                                 </span>Joinlist </a></button>
-                        </li>
+                        </li> -->
 
                          
                         

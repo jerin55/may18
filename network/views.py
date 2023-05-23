@@ -1556,7 +1556,7 @@ def buy_pageprofile(request,pageid):
         if invite_request.objects.filter(to_user=to_us, status__in=["Joined","User_Pending"]):
             frnd_list = invite_request.objects.filter(to_user=to_us, status__in=["Joined","User_Pending"])
 
-        
+
             join_friends=[]
            
             for i in frnd_list :
@@ -4478,13 +4478,50 @@ def page_createpost(request,pk):
     crt=Cart.objects.filter(user=request.user)
     crt_count = crt.count()
     inv=invite_request.objects.filter(to_user=request.user)
+
+
+    def get_interest_path(interest, path=[]):
+        if interest.parent:
+            path.insert(0, interest.parent.id)
+            get_interest_path(interest.parent, path)
+        return path
+
+    def get_sublevel_interests(parent):
+        sublevels = parent.intrest_set.all()
+        sublevel_interests = []
+        for sublevel in sublevels:
+            sublevel_interests.append(sublevel.id)
+            sublevel_interests.extend(get_sublevel_interests(sublevel))
+        return sublevel_interests
+
+    parent_interest = intu.first()  # Selecting the first interest for demonstration purposes
+    parent_path = get_interest_path(parent_interest)
+
+    parent_path_2 = []
+    for i in parent_path:
+        parent_path_2.append(intrest.objects.get(id=i))
+
+    sublevels = get_sublevel_interests(parent_interest)
+
+    sublevels_2 = []
+    for i in sublevels:
+        sublevels_2.append(intrest.objects.get(id=i))
+
+
+    print(sublevels_2)  
+
+
+    intrest_following = intrest_followers.objects.all()   
+
+
     context = {
        "choose":choose,
        "pro":pro,
        'crt' : crt,
         'crt_count' : crt_count,
         "invc":inv.count(),
-       "intu" : intu
+       "intu" : intu,
+        "intrest_following": intrest_following,
     }
     return render(request,"page_createpost.html",context)
 
@@ -4566,25 +4603,55 @@ def topic_createpost(request, pk):
 
 @csrf_exempt
 def create_post(request,pk):
-    choose=intrest_followers.objects.all()
-    intu=intrest.objects.all()
-    crt=Cart.objects.filter(user=request.user)
+    choose = intrest_followers.objects.all()
+    intu = intrest.objects.all()
+    crt = Cart.objects.filter(user=request.user)
     crt_count = crt.count()
-    inv=invite_request.objects.filter(to_user=request.user) 
+    inv = invite_request.objects.filter(to_user=request.user)
 
+    def get_interest_path(interest, path=[]):
+        if interest.parent:
+            path.insert(0, interest.parent.id)
+            get_interest_path(interest.parent, path)
+        return path
 
-    
-    
-    intrest_following=intrest_followers.objects.all()    
+    def get_sublevel_interests(parent):
+        sublevels = parent.intrest_set.all()
+        sublevel_interests = []
+        for sublevel in sublevels:
+            sublevel_interests.append(sublevel.id)
+            sublevel_interests.extend(get_sublevel_interests(sublevel))
+        return sublevel_interests
+
+    parent_interest = intu.first()  # Selecting the first interest for demonstration purposes
+    parent_path = get_interest_path(parent_interest)
+
+    parent_path_2 = []
+    for i in parent_path:
+        parent_path_2.append(intrest.objects.get(id=i))
+
+    sublevels = get_sublevel_interests(parent_interest)
+
+    sublevels_2 = []
+    for i in sublevels:
+        sublevels_2.append(intrest.objects.get(id=i))
+
+    print(sublevels_2)    
+
+    intrest_following = intrest_followers.objects.all()
     context = {
-       "choose":choose,
-        'crt' : crt,
-        'crt_count' : crt_count,
-        "invc":inv.count(),
-       "intu" : intu,
-       'intrest_following':intrest_following,
+        "choose": choose,
+        "crt": crt,
+        "crt_count": crt_count,
+        "invc": inv.count(),
+        "intu": intu,
+        "parent_path": parent_path,
+        "parent_path_2": parent_path_2,
+        "sublevels": sublevels,
+        "sublevels_2": sublevels_2,
+        "intrest_following": intrest_following,
     }
-    return render(request,"createpost.html",context)
+    return render(request, "createpost.html", context)
 
 
 @csrf_exempt
@@ -4684,8 +4751,18 @@ def Invite_Joined(request,pk,id):
 
     inv.save()
 
-    return redirect('pageprofile',id)
+    noti = Notifications.objects.get(id=pk)
 
+    noti.type="User_Accept_Page_Invitions"
+    
+
+    noti.date_created=timezone.now()
+
+
+    noti.save()
+
+
+    return redirect(notification)
 
 def Invite_Removed(request,pk,id):
     
@@ -4696,9 +4773,7 @@ def Invite_Removed(request,pk,id):
 
     
 
-    return redirect('pageprofile',id)
-
-
+    return redirect('profile',id)
 
 
 

@@ -500,7 +500,11 @@
   <div class="scroll-page">
     <div class="create-post bg-white">
         <div class="form-group">
+          {% if not user.user_type == 'organization' %}
             <a style="text-decoration: none; " href="{% url 'create_post' user.id %}">
+              {% else %}
+              <a style="text-decoration: none;" href="{% url 'page_createpost' user.id %}">
+              {% endif %}
           <input type="text" class="form-control" placeholder="create new giz..." readonly></a>
         </div>
         {% if user.is_authenticated %}
@@ -508,7 +512,11 @@
         <ul>
             <li>
                 <button style="border-color: aliceblue;border-radius: 7px;"  >
-                <a style="text-decoration: none;" href="{% url 'create_post' user.id %}">
+                  {% if not user.user_type == 'organization' %}
+            <a style="text-decoration: none; " href="{% url 'create_post' user.id %}">
+              {% else %}
+              <a style="text-decoration: none;" href="{% url 'page_createpost' user.id %}">
+              {% endif %}
                     <span class="material-symbols-outlined">
                         description
                     </span>

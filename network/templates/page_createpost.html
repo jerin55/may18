@@ -617,6 +617,47 @@ input:checked + .slider:after {
                                     <div class="dropdown-menu">
                                       <input type="text" placeholder="Search..." class="search-input">
 
+                                      <p>&nbsp;Following Topics</p>
+                                      {% for intrest_following in intrest_following %}
+                                      {% if intrest_following.following_user == request.user %}
+                                          <a class="interest-link" href="{% url 'topic_createpost' intrest_following.topic.id %}" style="height: 70px; border-radius: 6px; border: .5px solid rgb(206, 206, 206); font-size: 14px; color: #000; text-decoration: none; padding-top: 5px; padding-left: 5px; font-weight: 600; position: relative;">
+                                              <svg style="padding: 5px;" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                              </svg>
+                                              {{ intrest_following.topic.intrest_name }}
+                                              <p style="margin-top: -12px; margin-left: 40px; font-size: 11px; color: #6b6b6b;">{{ intrest_following.topic.id | counts }} giz</p>
+                                  
+                                              {% if intrest_following.topic.tooltip2 == None %}
+                                              <span class="hover-popup">
+                                                {% for sublevel in intrest_following.topic.intrest_set.all %}
+                                                    -{{ sublevel.intrest_name }} -
+                                                    {% for sub_sublevel in sublevel.intrest_set.all %}
+                                                        -{{ sub_sublevel.intrest_name }} -
+                                                        {% for sub_sub_sublevel in sub_sublevel.intrest_set.all %}
+                                                            -{{ sub_sub_sublevel.intrest_name }} -
+                                                            {% for sub_sub_sub_sublevel in sub_sub_sublevel.intrest_set.all %}
+                                                                -{{ sub_sub_sub_sublevel.intrest_name }} -
+                                                                {% for sub_sub_sub_sub_sublevel in sub_sub_sub_sublevel.intrest_set.all %}
+                                                                    -{{ sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                    {% for sub_sub_sub_sub_sub_sublevel in sub_sub_sub_sub_sublevel.intrest_set.all %}
+                                                                        -{{ sub_sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                        {% for sub_sub_sub_sub_sub_sub_sublevel in sub_sub_sub_sub_sub_sublevel.intrest_set.all %}
+                                                                            -{{ sub_sub_sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                            <!-- Add more nested loops for additional levels if needed -->
+                                                                        {% endfor %}
+                                                                    {% endfor %}
+                                                                {% endfor %}
+                                                            {% endfor %}
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </span>
+                                              {% endif %}
+                                          </a>
+                                      {% endif %}
+                                  {% endfor %}
+
                                       <p>&nbsp;All Topics</p>
                                       {% for intrest in intu %}
                                           <a class="interest-link" href="{% url 'topic_createpost' intrest.id %}" style="height: 70px; border-radius: 6px; border: .5px solid rgb(206, 206, 206); font-size: 14px; color: #000; text-decoration: none; padding-top: 5px; padding-left: 5px; font-weight: 600; position: relative;">
@@ -630,6 +671,31 @@ input:checked + .slider:after {
                                        
 
                                               {% if intrest.tooltip2 == None %}
+
+                                              <span class="hover-popup">
+                                                {% for sublevel in intrest.intrest_set.all %}
+                                                    -{{ sublevel.intrest_name }} -
+                                                    {% for sub_sublevel in sublevel.intrest_set.all %}
+                                                        -{{ sub_sublevel.intrest_name }} -
+                                                        {% for sub_sub_sublevel in sub_sublevel.intrest_set.all %}
+                                                            -{{ sub_sub_sublevel.intrest_name }} -
+                                                            {% for sub_sub_sub_sublevel in sub_sub_sublevel.intrest_set.all %}
+                                                                -{{ sub_sub_sub_sublevel.intrest_name }} -
+                                                                {% for sub_sub_sub_sub_sublevel in sub_sub_sub_sublevel.intrest_set.all %}
+                                                                    -{{ sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                    {% for sub_sub_sub_sub_sub_sublevel in sub_sub_sub_sub_sublevel.intrest_set.all %}
+                                                                        -{{ sub_sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                        {% for sub_sub_sub_sub_sub_sub_sublevel in sub_sub_sub_sub_sub_sublevel.intrest_set.all %}
+                                                                            -{{ sub_sub_sub_sub_sub_sub_sublevel.intrest_name }} -
+                                                                            <!-- Add more nested loops for additional levels if needed -->
+                                                                        {% endfor %}
+                                                                    {% endfor %}
+                                                                {% endfor %}
+                                                            {% endfor %}
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </span>
 
                                                {% else %}
                                               <span class="hover-popup">{{ intrest.tooltip2 }}/{{ intrest.intrest_name }}</span>

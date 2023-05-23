@@ -26,7 +26,11 @@
                             <div id="user-name">
                                 
                                 <strong>
+                                    {% if view.user.user_type == 'organization' %}
+                                    <a style="text-decoration: none;" href="{% url 'pageprofile' view.user.id %}"> {{ view.user }}</a>
+                                    {% else %}
                                     <a style="text-decoration: none;" href="{% url 'profile' view.user.id %}"> {{ view.user }}</a>
+                                    {% endif %}
                                    
                                 </strong>
                             </div>

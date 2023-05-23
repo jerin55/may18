@@ -494,6 +494,7 @@ input:checked + .slider:after {
                                                         
                                                 </a>
                                             </li>
+                                            {% if not user.user_type == 'organization' %}
                                             <li>
                                                 <a href="{% url 'pag' user.id %}">
                                                     <span class="material-symbols-outlined">
@@ -502,6 +503,7 @@ input:checked + .slider:after {
                                                         Pages
                                                 </a>
                                             </li>
+                                            {% endif %}
                                             <li>
                                                 <a href="{% url 'logout' %}">
                                                     <span class="material-symbols-outlined">

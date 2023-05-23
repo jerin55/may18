@@ -340,7 +340,6 @@ class friend_request(models.Model):
 
 
 
-
 class invited(models.Model):
     to_user=models.ForeignKey(User,related_name='toinvit',on_delete=models.CASCADE,blank=True,default=True) 
     fr_user=models.ForeignKey(User,related_name='frinvit',on_delete=models.CASCADE,blank=True,default=True)
@@ -354,7 +353,7 @@ class commentz(models.Model):
 
 
 
-class friend(models.Model)  :
+class friend(models.Model):
     to=models.ForeignKey(User,related_name='toreq',on_delete=models.CASCADE,blank=True,default=True) 
     fr=models.ForeignKey(User,related_name='freq',on_delete=models.CASCADE,blank=True,default=True)
 
