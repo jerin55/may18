@@ -1446,8 +1446,7 @@ def pageprofile(request,pageid):
         else:
              suggestions = User.objects.exclude(username=request.user.username).order_by("?")
 
-            
-       
+   
 
         if search:
             suggestions = suggestions.filter(username__icontains=search)
