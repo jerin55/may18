@@ -1563,7 +1563,7 @@ def buy_pageprofile(request,pageid):
 
                 join_friends.append(User.objects.filter(id=i.from_user.id))
 
-            for i in frnd_list :
+            for i in frnd_list:
 
                 join_friends.append(User.objects.filter(id=i.from_user.id))
 
