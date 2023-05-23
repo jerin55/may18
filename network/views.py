@@ -1435,12 +1435,16 @@ def pageprofile(request,pageid):
 
                 join_friends.append(User.objects.filter(id=i.from_user.id))
 
-            combined_queryset = join_friends[0]
-            for queryset in join_friends[1:]:
-                combined_queryset |= queryset
+            if join_friends:
+                combined_queryset = join_friends[0]
+                for queryset in join_friends[1:]:
+                      combined_queryset |= queryset
 
-
-            suggestions = User.objects.exclude(pk__in=combined_queryset).exclude(username=request.user.username).order_by("?")
+                suggestions = User.objects.exclude(pk__in=combined_queryset).exclude(username=request.user.username).order_by("?")
+            else:
+               suggestions = User.objects.exclude(username=request.user.username).order_by("?")
+        else:
+             suggestions = User.objects.exclude(username=request.user.username).order_by("?")
 
             
        
@@ -1559,12 +1563,20 @@ def buy_pageprofile(request,pageid):
 
                 join_friends.append(User.objects.filter(id=i.from_user.id))
 
-            combined_queryset = join_friends[0]
-            for queryset in join_friends[1:]:
-                combined_queryset |= queryset
+            for i in frnd_list :
 
+                join_friends.append(User.objects.filter(id=i.from_user.id))
 
-            suggestions = User.objects.exclude(pk__in=combined_queryset).exclude(username=request.user.username).order_by("?")
+            if join_friends:
+                combined_queryset = join_friends[0]
+                for queryset in join_friends[1:]:
+                      combined_queryset |= queryset
+
+                suggestions = User.objects.exclude(pk__in=combined_queryset).exclude(username=request.user.username).order_by("?")
+            else:
+               suggestions = User.objects.exclude(username=request.user.username).order_by("?")
+        else:
+             suggestions = User.objects.exclude(username=request.user.username).order_by("?")
 
             
        
