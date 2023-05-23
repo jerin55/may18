@@ -200,7 +200,7 @@ DATABASES = {
 
 #    'default': {
 #             'ENGINE': 'django.db.backends.mysql',
-#             'NAME': 'gizjoin2',
+#             'NAME': 't1',
 #             'USER': 'root',
 #             'PASSWORD': '',
 #             'HOST': 'localhost',

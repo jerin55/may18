@@ -437,6 +437,7 @@ class Notifications(models.Model):
         ('User_Post_Reviwes','User_Post_Reviwes'),
         ('User_Post_Reviwes_Replay','User_Post_Reviwes_Replay'),
         ('Page_Invitions_To_User','Page_Invitions_To_User'),
+        
         ('User_Accept_Page_Invitions','User_Accept_Page_Invitions'),
         ('User_Page_Join_Request','User_Page_Join_Request'),
         ('Page_Accept_User_Invitions','Page_Accept_User_Invitions'),

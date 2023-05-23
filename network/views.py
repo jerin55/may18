@@ -2944,7 +2944,7 @@ def notification(request):
     # crt=Cart.objects.filter(user=request.user)
     # crt_count = crt.count()
 
-    Notification = Notifications.objects.filter(from_user=request.user)
+    Notification = Notifications.objects.filter(to_user=request.user)
 
     
 

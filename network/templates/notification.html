@@ -427,7 +427,7 @@
 
            
 
-                {% if i.from_user.id == user.id %}
+                {% if i.to_user.id == user.id %}
 
                     {% if i.type == "Page_Invitions_To_User" %}
 
@@ -441,7 +441,7 @@
                                     </div>
                                     
                                     <div class="pages-titles">
-                                    <p> <a href="{% url 'pageprofile' i.to_user.id %}" style="color: black;text-decoration: none;"><span style="font-size: 18px;"><b>{{i.to_user}}</b></span> invited to join <span style="font-size: 18px;"><b>{{i.pages.pagename}}</b></a><br>
+                                    <p> <a href="{% url 'pageprofile' i.from_user.id %}" style="color: black;text-decoration: none;"><span style="font-size: 18px;"><b>{{i.from_user}}</b></span> invited to join <span style="font-size: 18px;"><b></b></a><br>
                                         <!-- <span>UNIX directory tree hierarchy</span>  page</p> -->
                                         <span class="text-grey">{{i.date_created}}</span>
 
