@@ -212,16 +212,7 @@
                                                     
                                             </a>
                                         </li>
-                                        {% if not user.user_type == 'organization' %}
-                                        <li>
-                                            <a href="{% url 'pag' user.id %}">
-                                                <span class="material-symbols-outlined">
-                                                    apps
-                                                    </span>
-                                                    Pages
-                                            </a>
-                                        </li>
-                                        {% endif %}
+                                       
                                         <li>
                                             <a href="{% url 'logout' %}">
                                                 <span class="material-symbols-outlined">
@@ -566,7 +557,7 @@
         </div>
         <div class="post-info">
         {% if post.posts_type == "page_post" %}
-        <a style="text-decoration: none; color: black; " > <h6><a href="{% url 'profile' user.id %}">{{post.creater.username}} </a> - <a href="{% url 'pageprofile' post.page_id.id %}">{{post.page_id.pagename}} &nbsp;&nbsp;<span class="low-opacity">{{post.date_created | date:"P M d Y"}}</span></h6></a> 
+        <a style="text-decoration: none; color: black; " > <h6><a href="{% url 'profile' user.id %}">{{post.creater.username}} </a> - <a href="{% url 'pageprofile' post.creater.id %}">{{post.page_id.pagename}} &nbsp;&nbsp;<span class="low-opacity">{{post.date_created | date:"P M d Y"}}</span></h6></a> 
         <p>academy</p></a>
         {% elif post.posts_type == "user_post" %}
         <a style="text-decoration: none; color: black; " > <h6><a href="{% url 'profile' post.creater.id %}">{{post.creater.username}} </a> &nbsp;&nbsp;<span class="low-opacity">{{post.date_created | date:"P M d Y"}}</span></h6></a> 

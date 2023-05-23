@@ -1457,7 +1457,7 @@ def pageprofile(request,pageid):
             follower = True    
     page_joined=[]
     if  invite_request.objects.filter(from_user=request.user,status="Joined"):
-        page_joined = invite_request.objects.get(from_user=request.user,status="Joined")
+        page_joined = invite_request.objects.filter(from_user=request.user, status="Joined").first()
 
     
     
@@ -4931,6 +4931,8 @@ def Accept_notifiction_User(request,id,pk):
     inv.status = "Joined"
 
     inv.save()
+
+
 
     noti = Notifications.objects.get(id=pk)
 
