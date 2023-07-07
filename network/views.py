@@ -440,10 +440,8 @@ def index(request):
         }
         interest_list.append(interest_data)
 
-
-
-
-
+    choose = intrest_followers.objects.all()
+    intu = intrest.objects.all()
 
     context = {
         'index_posts': 1,
@@ -456,13 +454,13 @@ def index(request):
         "frd":frd,
         "usr":usr.count(),  
         "intr":intr,"choose":choose,
-        "interest_list":interest_list
+        "interest_list":interest_list,
+        'intu':intu
     
     }    
 
 
     return render(request, "network/index.html",context)
-
 
 
 
@@ -543,17 +541,11 @@ def register(request):
         if lname == None:
             lname = "none"
 
-       
-
 
         profile = request.FILES.get("profile")
    
        
         cover = request.FILES.get('cover')
-        
-       
-
-
        
 
         # Ensure password matches confirmation
@@ -563,7 +555,6 @@ def register(request):
         #     return render(request, "network/register.html", {
         #         "message": "Passwords must match."
         #     })
-
         # Attempt to create new user
         try: 
             user = User.objects.create_user(username, email, password)
@@ -737,13 +728,10 @@ def profile(request, username):
         'join':join,
         'categories': categories
         
-        
        
     }
    
     return render(request,'network/profile.html',context)
-
-
 
 
 
@@ -801,15 +789,6 @@ def buyprofile(request, username):
 
 
 
-    
-    
-    
-
-
-
-
-
-
     to=request.user.id
     fr=username
 
@@ -843,7 +822,7 @@ def buyprofile(request, username):
         'crt_count' : crt_count,
         "invc":inv.count(),  
         "post_count":post_count,
-    "choose":choose,
+        "choose":choose,
         'user_followers': user_followers,
         'user_following': user_following,
         "topic_foll":topic_foll,
@@ -993,6 +972,8 @@ def user_create_post(request,pk):
 
 
         text = request.POST.get('text')
+        intr_id = request.POST.get('intr_id')
+        
         
         categories=request.POST.get('categories')
         title=request.POST.get('title')
@@ -1021,15 +1002,25 @@ def user_create_post(request,pk):
                     content_text=text,
                     title=title,
                     
+                    
                     categories=categories,
                   
                     # content_image=pic,
                     status=status,
                     Product_Price=Product_Price,
-                    posts_type="user_post",
+                    posts_type="user_post", 
                     Offer_toggle = offer_toggle,
                   
                     )
+        
+
+        if intr_id:
+            try:
+                intr_instance = intrest.objects.get(id=intr_id)
+                post.intr_id = intr_instance
+                post.posts_type = "intrest_post"  # Update posts_type field
+            except intrest.DoesNotExist:
+                pass
         
         
         post.save()
@@ -1103,7 +1094,7 @@ def edit_post(request, post_id):
                 "success": False
             })
     else:
-            return HttpResponse("Method must be 'POST'")
+            return HttpResponse("Method must be 'POST' ")
 
 @csrf_exempt
 def like_post(request, id):
@@ -1484,6 +1475,100 @@ def pageprofile(request,pageid):
 
 
     return render(request,"pageprofile.html",context)
+
+
+def pageprofile2(request,pageid):
+    pro=page.objects.get(id=pageid)
+    posts = Post.objects.filter(page_id=pageid).order_by('-date_created')
+    choose=intrest_followers.objects.all()
+    followings = []
+   
+    crt=Cart.objects.filter(user=request.user)
+    crt_count = crt.count()
+    inv=invite_request.objects.filter(to_user=request.user)
+
+    follower=False
+
+
+    to=request.user.id
+    frm=pageid
+
+    if pagefollow.objects.filter(from_user_id=to, to_page_id=frm,stat='following').first():
+         button_text = 'Unfollow'
+    else:  
+        button_text = 'Follow'
+
+    user_followers = len(pagefollow.objects.filter(to_page=pageid))
+
+    if request.user.is_authenticated:
+        followings = Follower.objects.filter(followers=request.user).values_list('user', flat=True)
+        suggestions = []
+    search = request.GET.get('search')
+    if request.user.is_authenticated:
+        followings = friend_request.objects.filter(from_user=request.user).values_list('to_user',flat=True)
+        suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")
+        if search:
+            suggestions = suggestions.filter(username__icontains=search)
+        suggestions = suggestions[:5]
+
+        if request.user in Follower.objects.get(user=pro.creater).followers.all():
+            follower = True
+
+    follower_count = Follower.objects.get(user=pro.creater).followers.all().count()
+    following_count = Follower.objects.filter(followers=pro.creater).count()        
+    # suggestions = User.objects.all()
+    # req=invite_request.objects.all
+    
+    us = request.user
+    pge = page.objects.get(id=frm)
+
+    to_us = pge.creater
+
+
+    if invite_request.objects.filter(from_user=us,to_user=to_us):
+
+        inv = invite_request.objects.filter(from_user=us,to_user=to_us)
+
+        for i in inv:
+
+            if i.status == "Pending":
+
+                join = 'Pending'
+            elif i.status == "Joined": 
+                join = 'Joined'   
+
+        
+    else:  
+        join = 'Join'
+    friends_list=""
+    if invite_request.objects.filter(to_user=to_us,status="Joined"):
+        friends_list = invite_request.objects.filter(to_user=to_us,status="Joined")
+
+    
+    context = {
+        "pro":pro,
+        "posts":posts,
+        "pag":pag,
+        "posts_count": posts.count(),
+        "suggestions":suggestions,
+        "search" : search,
+        "is_follower": follower,
+        "follower_count": follower_count,
+        "following_count": following_count,
+         "button_text":button_text,
+        "user_followers":user_followers,
+         'crt' : crt,
+        'crt_count' : crt_count,
+        "invc":inv.count(),  
+        "choose":choose,
+        'join':join,
+        'fncount':len(friends_list)
+        
+    }
+
+
+    return render(request,"pageprofile2.html",context)
+
 
 
 
@@ -4844,8 +4929,8 @@ def User_page_invitation(request,pk,id):
 
     Notifi =Notifications()
 
-    Notifi.from_user = user_id
-    Notifi.to_user = to_user
+    Notifi.from_user = to_user
+    Notifi.to_user =  user_id
     
     Notifi.type = "Page_Invitions_To_User"
     Notifi.invite_request = inv_id

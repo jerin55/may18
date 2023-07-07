@@ -708,14 +708,20 @@ input:checked + .slider:after {
                                   </div>
                                   </div>
                                 </div>
-
-                                
+                  
                                 <div class="post-wrapper bg-white">
                                     <div class="modal-content">
                                      
                                         <div class="modal-body">
                                             <form action="{% url 'user_create_post' user.id %}" method="POST"  enctype="multipart/form-data">
                                                 {% csrf_token %}
+
+                                                <select name="intr_id">
+                                                  {% for intrest in intu %}
+                                                  <option value="{{ intrest.id }}"> {{ intrest.intrest_name }}</option>
+                                                  {% endfor %}
+                                                </select>
+                                                              
                                                 <div class="mb-3">
                                                     
                                                     <textarea rows="5" type="type"  name="text" class="form-control" placeholder="What do you like to talk about?"></textarea>

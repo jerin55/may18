@@ -39,6 +39,7 @@ urlpatterns = [
     path('n/page_creation/<int:pk>',views.page_creation,name="page_creation"),
     path('n/pag/<int:pk>',views.pag,name="pag"),
     path('pageprofile/<int:pageid>',views.pageprofile,name="pageprofile"),
+    path('pageprofile2/<int:pageid>',views.pageprofile2,name="pageprofile2"),
 
 
     path('buy_pageprofile/<int:pageid>',views.buy_pageprofile,name="buy_pageprofile"),

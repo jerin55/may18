@@ -200,7 +200,7 @@ DATABASES = {
 
 #    'default': {
 #             'ENGINE': 'django.db.backends.mysql',
-#             'NAME': 't1',
+#             'NAME': 't6',
 #             'USER': 'root',
 #             'PASSWORD': '',
 #             'HOST': 'localhost',
